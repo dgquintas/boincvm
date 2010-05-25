@@ -1,0 +1,470 @@
+= !VirtualBox =
+
+!VirtualBox looks certainly promising.
+
+== "Logistic" advantages ==
+
+ 1. One order of magnitude lighter, both its installation package (~35 MB) and
+ its installed size (~60 MB). Compare with the 500+ MB of VMWare Server 2.0,
+ that increase in some 150 extra MB when installed.
+ 1. License. Its OSE (Open Source Edition) is published under the GPL v.2, but
+ even the non-libre version -PUEL,
+ [http://www.virtualbox.org/wiki/VirtualBox_PUEL Personal Use and Evaluation
+ License]- could be used for our purposes, but that's something to be checked
+ by someone who actually knows something about licensing, unlike myself. 
+ 1. Faster and "less painful" installation process, partly due to its lighter
+ weight. No license number required, hence less hassle for the user.
+
+== Technical points ==
+
+The interaction with the VM is made possible even from the command line, in
+particular from the single command `VBoxManage` (extensive doc available in
+[http://download.virtualbox.org/virtualbox/2.2.2/UserManual.pdf the manual]). Of
+particular interest for us are the following VBoxManager's arguments:
+    - startvm
+    - controlvm  pause|resume|reset|poweroff|savestate ...
+    - snapshot
+    - vmstatistics
+    - createvm
+    - registervm
+
+All the functionalities exposed by this command are also available throughout
+a C++ COM/XPCOM based API, as well as Python bindings. However, the `VBoxManage` 
+is already ported to several platforms and it's flexible enough as to be relied on
+to interact with !VirtualBox.
+
+Following the capabilities enumeration introduced by Kevin, !VirtualBox would
+compare to his analysis based on VMWare Server as follows:
+
+ 1. Manage the Image.  Covered by the "`snapshot`" command 
+ 1. Boot the virtual machine. Covered by "`startvm`" 
+ 1. Copy files host -> guest: '''Not''' directly supported by the !VirtualBox API.
+ We'd need to resource to external solutions
+ such as the one detailed below based on [http://www.cs.wisc.edu/condor/chirp/ Chirp].
+ 1. Run a program on the guest. Same as 3.
+ 1. Pause and the guest. Covered by "`controlvm pause/resume`" 
+ 1. Retrieve files from the guest.  See 3 and 4, same situation.
+ 1. Shutdown the guest Covered by "`controlvm poweroff`"
+
+
+== Bindings ==
+In case the direct usage of the `VBoxManage` command wouldn't be appropriate,
+it's possible to fallback to the low-level API.
+Both VMWare Server and !VirtualBox make available C/C++ APIs, as well as
+Python, with different levels of support -in case of VMWare, it's an
+unsupported project.  !VirtualBox's API is based on COM/XPCOM, and it's
+possible to implement a unified windows/linux approach based on the former
+technology. The actual code implementing the [http://www.virtualbox.org/browser/trunk/src/VBox/Frontends/VBoxManage VBoxManage]
+command is a very good reference.
+Therefore, implementing a "hypervisor abstraction layer" is in principle
+feasible, with a common win/linux codebase both for VIX and !VirtualBox API.
+
+== Interacting with the VM Appliance ==
+
+Another very nice feature of !VirtualBox is the possibility to interact with
+the running appliance through a Remote Desktop connection, which can be
+properly secured both in term of authentication and encrypted traffic (that is
+to say, these features are already supported by !VirtualBox).
+ 
+== Conclusions ==
+
+!VirtualBox provides several appealing features, as powerful as those provided
+by VMWare at a lower cost -both in terms of inconveniences for the user and
+licensing. However, it lacks support for direct interacting with the guest
+appliance: there are no equivalents to VIX's `CopyFileFromGuestToHost`,
+`RunProgramInGuest`, etc. related to the seven points summarizing the
+requirements. This inconvenience can nevertheless be addressed as mentioned
+with certain additional benefits and no apparent drawbacks.
+
+
+= Overcoming VirtualBox API Limitations =
+
+== Introduction ==
+In previous sections, two limitations of the API offered by !VirtualBox
+were pointed out. Namely, the inability to directly support the 
+execution of command and file copying between the host and the guest. 
+While relatively straightforward solutions exist, notably the usage of SSH,
+they raise issues of their own: the guest needs to (properly) configure this
+SSH server.
+
+Thus, the requirements for a satisfactory solution would include:
+
+  * Minimal or no configuration required on the guest side. 
+  * No assumptions on the network reachability of the guest. Ideally, 
+    guests should be isolated from "the outside world" as much as possible.
+
+Additional features to keep in mind:
+
+  * Scalability. The solution should account for the execution of an arbitrary
+    number of guests on a given host. 
+  * Technology agnostic: dependencies on any platform/programming
+    language/hypervisor should be kept to a minimum or avoided altogether.
+ 
+
+== Proposed Solution ==
+Following Predrag Buncic's advice, I began looking into such a solution based on
+asynchronous message passing. In order to keep the footprint, both on the host and the guest sides,
+the [http://stomp.codehaus.org/Protocol STOMP protocol] 
+came to mind. The protocol is simple enough as to have implementations in a
+large number of programming languages, while fulfilling all flexibility needs. Despite its 
+simplicity and being relatively unheard of, ActiveMQ supports it out-of-the-box (even though
+it'd be advisable to use something lighter for a broker).
+
+Focusing on the problem at hand, we need to tackle the following problems:
+
+  * Command execution on the guest
+  * File transfer from the host to the guest
+  * File transfer from the guest to the host
+
+The following diagram depicts a bird's eye view of the system's architecture:
+  [[Image(arch.png)]]
+
+  === Network Setup ===
+  In the previous diagram, it was implied that both host and guests were
+  already connected to a common broker. This is clearly not the case upon startup. Both the
+  host and the guests need to share some knowledge about the broker's location, if it's going
+  to be running on an independent machine. Otherwise, it can be assumed that it listens on the
+  host's IP. Moreover, this can always be assumed if an appropriate port forwarding mechanism 
+  is put in place in the host in order to route the connections to the broker. 
+ 
+  The recent release of the 2.2 series of !VirtualBox is a very convenient one: the newly introduced
+  host-only networking feature fits our needs like a glove. From 
+  [http://download.virtualbox.org/virtualbox/2.2.2/UserManual.pdf the manual] (section 6.7):
+
+    Host-only networking is another networking mode that was added with version 2.2
+    of !VirtualBox. It can be thought of as a hybrid between the bridged and internal
+    networking modes: like with bridged networking, the virtual machines can talk to
+    each other and the host as if they were connected through a physical ethernet switch.
+    Like with internal networking however, a physical networking interface need not be
+    present, and the virtual machines cannot talk to the world outside the host since they
+    are not connected to a physical networking interface.
+    Instead, when host-only networking is used, !VirtualBox creates a new software interface
+    on the host which then appears next to your existing network interfaces. In
+    other words, whereas with bridged networking an existing physical interface is used
+    to attach virtual machines to, with host-only networking a new “loopback” interface
+    is created on the host. And whereas with internal networking, the traffic between the
+    virtual machines cannot be seen, the traffic on the “loopback” interface on the host
+    can be intercepted.
+    
+  That is to say, we have our own virtual "ethernet network". On top of that, !VirtualBox
+  provides an easily configurable DHCP server that makes it possible to set a fixed IP for the
+  host while retaining a flexible pool of IPs for the VMs.
+  Thanks to this feature, there is no exposure at all: not only do the used IPs belong to a private
+  intranet IP range, but the interface itself is purely virtual.
+
+
+  === Command Execution ===
+  Requesting the execution of a program contained in the guest fit nicely into an async.
+  message passing infrastructure: a tailored message addressed to the guest we want to
+  run the command on is published, processed by this guest and eventually answered back
+  with some sort of status (maybe even periodically in order to feedback about progress). 
+
+  Given the subscription-based nature of the system, several guests can be addressed at
+  once by a single host, triggering the execution of commands (or any other action
+  covered by this mechanism) in a single go. Note that neither the hosts nor the 
+  (arbitrary number of) guests need to know how many of the latter conform the system:
+  new guest instances need only subscribe to these "broadcasted" messages on their own
+  to become part of the overall system. This contributes to the ''scalability'' of the system.
+
+
+  === File Transfers ===
+  This is a trickier feature: transfers must be bidirectional, yet we want to avoid any kind
+  of exposure or (complex) configuration. 
+
+  The proposed solution takes advantage of the [http://www.cse.nd.edu/~ccl/software/chirp/ Chirp protocol and set of tools].
+  This way, we don't even require privileges to launch the server instances. Because
+  the file sharing must remain private, the chirp server is run on the guests. The host agent
+  would act as a client that'd send or retrieve files. We spare ourselves from all the 
+  gory details involved in the actual management of the transferences, delegating the job
+  to chirp (which deals with it brilliantly, by the way).
+
+  The only bit missing in this argumentation is that the host needs to be aware of the guests' 
+  IP addresses in order to communicate with these chirp servers. This is a no-issue, as the 
+  custom STOMP-based protocol implemented makes it possible for the guests to "shout out" their
+  details so that the host can keep track of every single one of them.
+
+
+  === Open Questions ===
+  * Where should the broker live? Conveniently on the same machine as the hypervisor or on
+    a third host? Maybe even a centralized and widely known (ie, standard) one? This last option
+    might face congestion problems, though. 
+  * Broker choice. Full-fledged ([http://activemq.apache.org/ ActiveMQ]) or more limited but lighter? 
+    (ie, [http://www.germane-software.com/software/Java/Gozirra/ Gozirra]). On this 
+    question, unless a centralized broker is universally used, the lighter version largely suffices.
+    Otherwise, given the high load expected, a more careful choice should be made.
+
+
+== Implementation ==
+[http://cernvm.cern.ch/cernvm/ CernVM] has been taken as the base guest system.
+'''Note''': if more than one CernVM instance is to be run on the same
+hypervisor, the UUID of the virtual machine's harddisk image has to be
+changed: at least in the !VirtualBox case, no two disk images (globally) can
+have the same UUID. Luckily this can be quickfixed, taking into account we
+are looking for the following pattern: 
+
+{{{
+dgquintas@portaca:$ grep -n -a -m 1 "uuid.image" cernvm-1.2.0-x86.vmdk 
+20:ddb.uuid.image="ef98873f-7954-4ed8-919a-aae7fb7443a8"
+}}}
+
+Notice the -m 1 flag, to avoid going through the many megabytes the file is
+worth. In place modifications of this UUID can be trivially performed in-place
+by using, for instance, sed. 
+
+
+This prototype has been implemented in Python, given its cross-platform nature and the suitability
+of the tools/libraries it provides.
+
+  === Overview ===
+  Upon initialization, guests connect to the broker, that's expected to listen on the 
+  default STOMP port 61613 at the guest's gateway IP. 
+  Once connected, it "shouts out" he's joined the party, providing a its unique id (see
+  following section for details). Upon reception, the BOINC host notes down this unique id for
+  further unicast communication (in principle, other guests don't need this information). The 
+  host acknowledges the new guest (using the STOMP-provided ack mechanisms).
+
+  Two channels are defined for the communication between host agent and VMs: the
+  connection and the command channels (this conceptual "channels" are actually
+  a set of STOMP topics. Refer to [http://bitbucket.org/dgquintas/boincvm/src/tip/destinations.py the source] 
+  for their actual string definition).
+
+
+  === Unique Identification of Guests ===
+  The preferred way to identify guests is based simply on their IP.
+
+  === VM Aliveness ===
+  We need to make sure the host agent is aware of all the available VMs and
+  that it appropriately discards those which, for one reason or another, are
+  no longer available. The way this "VM aliveness" feature has been
+  implemented resources to "beacon" messages sent regularly from the VMs
+
+  === Tailor-made STOMP Messages ===
+  The whole custom made protocol syntax is encapsulated in the
+  classes of the "words" package. Each of these words correspond
+  to this protocol's commands, which are always encoded as 
+  the first single word of the exchanged STOMP messages.
+
+  It is the `MsgInterpreter` class responsability to "interpret"
+  the incoming STOMP messages and hence route them towards
+  the appropriate "word" in order to perform the corresponding
+  action.
+
+  The "words" considered so far are:
+
+    CMD_RUN::
+      Requested by the host agent in order for
+      VMs to run a given command.
+
+{{{
+HEADERS:
+  to: a vm
+  cmd-id: unique request id
+  cmd: cmd to run
+  args: args to pass cmd
+  env: mapping defining exec env
+  path: path to run the cmd in
+}}}
+
+{{{
+BODY: 
+  CMD_RUN
+}}}
+
+    CMD_RESULT::
+      Encapsulates the result of a command execution. It's
+      sent out by a VM upon a completed execution.
+ 
+{{{
+HEADERS:
+  cmd-id: the execution unique id this msg replies to
+}}}
+
+{{{
+BODY: 
+  CMD_RESULTS <json-ed dict. of results>
+}}}
+
+      This word requires a bit more explanation. 
+      Its body encodes the command execution results as
+      a dictionary with the following keys: 
+
+{{{
+results: 
+  { 
+    'cmd-id': same as in the word headers
+    'out': stdout of the command
+    'err': stderr of the command
+    'finished': boolean. Did the command finish or was it signaled?
+    'exitCodeOrSignal': if finished, its exit code. Else, the
+    interrupting signal
+    'resources': dictionary of used resources as reported by Python's resource module
+  }
+}}}
+
+      This dictionary is encoded using JSON, for greater interoperability.
+
+    HELLO (resp. BYE)::
+      Sent out by a VM upon connection (resp. disconnection).
+
+{{{
+HEADERS:
+  ip: the VM's unique IP.
+}}}
+
+{{{
+BODY:
+  HELLO (resp. BYE)
+}}}
+
+
+    STILL_ALIVE ::
+      Sent out periodically (controlled by the `VM.beacon_interval` [#Configuration config property]) by a VM
+      in order to assert its aliveness.
+
+{{{
+HEADERS:
+  ip: the VM's unique IP.
+}}}
+
+{{{
+BODY:
+  STILL_ALIVE
+}}}
+
+    AINT::
+      Failback when the parsed word doesn't correspond to any of
+      the above. The rationale behind this word's name follows the
+      relatively known phrase "Ain't ain't a word".
+
+
+== API Accesibility ==
+The host agent functionalities are made accesible through a XML-RPC
+based API. This choice aims to provide a simple yet fully functional, 
+standard and multiplatform mechanism of communication between this
+agent and the outside world, namely the BOINC wrapper. 
+
+
+== Dependencies ==
+This section enumerates the external packages (ie, not included in the
+standard python distribution) used. The version used during development 
+is given in parenthesis.
+
+  * [http://pypi.python.org/pypi/netifaces/0.5 Netifaces] (0.5) 
+  * [http://code.google.com/p/stomper/ Stomper] (0.2.2)
+  * [http://twistedmatrix.com/ Twisted] (8.2.0), which indirectly requires 
+     [http://www.zope.org/Products/ZopeInterface Zope Interfaces] (3.5.1)
+  * [http://code.google.com/p/simplejson/ simplejson] (2.0.9). Note that this
+    package has been included as part of the standard library as "json" in Python 2.6.
+
+  Versions 2.4 and 2.6 of the Python runtime have been tested.
+
+== Miscelaneous Features ==
+  * Multiplatform: it runs wherever a python runtime is available. All
+  the described dependencies are likewise portable. 
+  * Fully asynchronous. Thanks to the usage of the Twisted framework, the
+  whole system developed is seamlessly multithreaded, even though no 
+  threads are used (in the developed code at least). Instead, all the
+  operations rely on the asynchronous nature of the Twisted mechanism, 
+  about which details are given 
+  [http://twistedmatrix.com/projects/core/documentation/howto/async.html here].
+
+== Prototype ==
+Because action speak louder than words, a prototype illustrating the previous
+points has been developed. Bear in mind that, while functional, this is a
+proof of concept and surely can be much improved. 
+
+=== Structure ===
+[[Image(classDiagram.png)]]
+In the previous class diagram special attention should be paid to the classes
+of the "words" package: they encompass the logic of the implemented protocol. 
+The `Host` and `VM` classes model the host agent and the VMs, respectively. 
+Classes with a yellow background are support the underlying STOMP
+architecture. 
+`CmdExecuter` deals with the bookkeeping involved in the execution of
+commands. `MsgInterpreter` takes care of routing the messages received by
+either the host agent or the VMs to the appropriate `word`. This architecture
+makes it extremely easy to extend the functionalities: just add a new `word`
+implementing `howToSay` and `listenAndAct` methods.
+
+
+=== Configuration ===
+Several aspects can be configured, on three fronts:
+
+* Broker: 
+  * `host`: the host where the broker's running
+  * `port`: port the broker's listening on
+  * `username`: broker auth.
+  * `password`: broker auth.
+
+* Host: 
+  * `chirp_path`: absolute path (including /bin) of the chirp tools
+  * `xmlrpc_listen_on`: on which interface to listen for XML-RPC requests.
+  * `xmlrpc_port`: on which port to listen for XML-RPC requests.
+  * `vm_gc_grace`: how ofter to check for VM beacons (see [#VMAliveness VM Alivenes]).
+
+* VM:
+  * `beacon_interval`: how often to send an aliveness beacon (see [#VMAliveness VM Alivenes])
+
+  The configuration file follows
+  [http://docs.python.org/library/configparser.html Python's !ConfigParser] syntax, and its latest
+  version can be found 
+  [http://bitbucket.org/dgquintas/boincvm/src/tip/config.cfg here].
+
+=== Download and Usage ===
+The current source code can be browsed as a 
+[http://bitbucket.org/dgquintas/boincvm/ mercurial repository], or downloaded from that same webpage.
+In addition, the packages described in [#Dependencies the dependencies
+section] must be installed as well. 
+
+Starting up the host agent amounts to:
+
+{{{
+  dgquintas@portaca:~/.../$ python HostMain.py config.cfg 
+}}}
+
+Likewise for the VMs (in principle from inside the actual virtual machine, but
+not necessarily):
+
+{{{
+  dgquintas@portaca:~/.../$ python VMMain.py config.cfg
+}}}
+
+Of course, a broker must be running on the host and port defined in the
+configuration file being used, [#Configuration as described]. During
+development, [http://activemq.apache.org/ ActiveMQ 5.2.0] has been used, 
+but [http://stomp.codehaus.org/Brokers any other] should be fine as well.
+
+=== Logging ===
+The prototype uses logging abundantly, by means of the standard Python's
+[http://docs.python.org/library/logging.html logging module]. Despite all this
+sophistication, the configuration of the loggers is hardcoded in the files, as
+opposed to having a separate logging configuration file. This logger
+configuration can be found [http://bitbucket.org/dgquintas/boincvm/src/tip/HostMain.py#cl-8 here]
+for the host agent and [http://bitbucket.org/dgquintas/boincvm/src/tip/VMMain.py#cl-8 here] for the VM.
+
+
+== Conclusions ==
+The proposed solution not only addresses the shortcomings of the !VirtualBox
+API: it also implements a generic -both platform and hypervisor agnostic-
+solution to interact with a set of independent and loosely coupled machines
+from a single entry point (the host agent). In our case, this translates to
+virtual machines running under a given hypervisor, but it could very well be 
+a more traditional distributed computing setup, such as a cluster of machines
+that could take advantage of the "chatroom" nature of the implemented
+mechanism. 
+While some of the features this infrastructure offers could be regarded as
+already covered by the hypervisor API (as in the !VmWare's VIX API for command
+execution), the flexibility and granularity we attain is far greater: by means
+of the "words" of the implemented STOMP based protocol, we have ultimate
+access to the VMs, to the extend allowed by the Python runtime. 
+
+
+== TO-DO ==
+  * Unify the hypervisor of choice's API and the custom made API under a single
+    XML-RPC (or equivalent) accessible entry point for the BOINC wrapper to
+    completely operate with the wrapped VM-based computations.
+  * Possibly implement more specialized operations, such as resource usage
+    querying on-the-fly while the process is still running. 
+
+
+

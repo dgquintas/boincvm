@@ -1,0 +1,62 @@
+#!/bin/sh
+
+show_help() 
+{
+	echo "Use: sge_submit_workers [options] <servername> <port> <num-workers>"
+	echo "options:"
+	echo "  -t <time> Abort after this amount of idle time. (default=900s)"
+	echo "  -h        Show this help message."
+	exit 1
+}
+
+timeout=900
+
+while getopts ht: opt 
+do
+	case "$opt" in
+		t)  timeout=$OPTARG ;;
+		h)  show_help;;
+		\?) show_help;;
+	esac
+done
+
+shift $(expr $OPTIND - 1)
+
+if [ X$3 = X ]
+then
+	show_help	
+fi
+
+worker=`which worker 2>/dev/null`
+if [ $? != 0 ]
+then
+	echo "$0: please add 'worker' to your PATH."
+	exit 1
+fi
+
+qsub=`which qsub 2>/dev/null`
+if [ $? != 0 ]
+then
+	echo "$0: please add 'qsub' to your PATH."
+	exit 1
+fi
+
+host=$1
+port=$2
+count=$3
+
+mkdir -p ${USER}-workers
+cd ${USER}-workers
+cp $worker .
+
+cat >worker.sh <<EOF
+#!/bin/sh
+./worker -t $timeout $host $port
+EOF
+
+chmod 755 worker.sh
+
+for n in `seq 1 $count`
+do
+	qsub worker.sh
+done
