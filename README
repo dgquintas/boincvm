@@ -97,5 +97,5 @@ Run ipython or a python script that does something like following:
  #Copy files....
  id = p.cpFileToVM(vm, '~/test.txt', '')
 
-NOTE: It was found that files got copied to /var/boinc in the VirtualMachine is third parameter was blank...
+NOTE: It was found that files got copied to /var/boinc in the VirtualMachine (if the third parameter was left blank)
 
