@@ -1,8 +1,7 @@
 BOINCVM
 =======
-This project is an extension of "LHC physics simulation using CernVM and BOINC" by Jarno Rantala (2009)
-under Ben Segal, with the help of David Garcia Quintas @ CERN during CERN NMS Summer Student Program 2010.
--Rohit Yadav
+
+BOINC + VMController + VirtualBox + CERNVM = Volunteer Cloud Computing
 
 1. Setup
 ========
