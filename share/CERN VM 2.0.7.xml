@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<VirtualBox xmlns="http://www.innotek.de/VirtualBox-settings" version="1.9-linux">
+  <Machine uuid="{1da1dbf0-f19a-424c-8fb9-b309b175528b}" name="CERN VM 2.0.7" OSType="Linux26" lastStateChange="2010-05-21T11:30:22Z">
+    <ExtraData>
+      <ExtraDataItem name="GUI/AutoresizeGuest" value="on"/>
+      <ExtraDataItem name="GUI/Fullscreen" value="off"/>
+      <ExtraDataItem name="GUI/LastCloseAction" value="powerOff"/>
+      <ExtraDataItem name="GUI/LastWindowPostion" value="371,61,720,449"/>
+      <ExtraDataItem name="GUI/MiniToolBarAlignment" value="bottom"/>
+      <ExtraDataItem name="GUI/MiniToolBarAutoHide" value="on"/>
+      <ExtraDataItem name="GUI/SaveMountedAtRuntime" value="yes"/>
+      <ExtraDataItem name="GUI/Seamless" value="off"/>
+      <ExtraDataItem name="GUI/ShowMiniToolBar" value="yes"/>
+    </ExtraData>
+    <Hardware version="2">
+      <CPU count="1">
+        <HardwareVirtEx enabled="true" exclusive="true"/>
+        <HardwareVirtExNestedPaging enabled="true"/>
+        <HardwareVirtExVPID enabled="true"/>
+        <PAE enabled="true"/>
+      </CPU>
+      <Memory RAMSize="512"/>
+      <Boot>
+        <Order position="1" device="HardDisk"/>
+        <Order position="2" device="Network"/>
+        <Order position="3" device="None"/>
+        <Order position="4" device="None"/>
+      </Boot>
+      <Display VRAMSize="32" monitorCount="1" accelerate3D="false" accelerate2DVideo="false"/>
+      <RemoteDisplay enabled="false" port="3391" authType="Null" authTimeout="5000"/>
+      <BIOS>
+        <ACPI enabled="true"/>
+        <IOAPIC enabled="true"/>
+        <Logo fadeIn="true" fadeOut="true" displayTime="0"/>
+        <BootMenu mode="MessageAndMenu"/>
+        <TimeOffset value="0"/>
+        <PXEDebug enabled="false"/>
+      </BIOS>
+      <USBController enabled="true" enabledEhci="true"/>
+      <Network>
+        <Adapter slot="0" enabled="true" MACAddress="08002789423D" cable="true" speed="0" type="82540EM">
+          <NAT/>
+        </Adapter>
+        <Adapter slot="1" enabled="true" MACAddress="080027E0ADB2" cable="true" speed="0" type="82540EM">
+          <HostOnlyInterface name="vboxnet0"/>
+        </Adapter>
+        <Adapter slot="2" enabled="false" MACAddress="080027D8FC84" cable="true" speed="0" type="Am79C973"/>
+        <Adapter slot="3" enabled="false" MACAddress="0800273BFC11" cable="true" speed="0" type="Am79C973"/>
+        <Adapter slot="4" enabled="false" MACAddress="080027686B2F" cable="true" speed="0" type="Am79C973"/>
+        <Adapter slot="5" enabled="false" MACAddress="080027439DEC" cable="true" speed="0" type="Am79C973"/>
+        <Adapter slot="6" enabled="false" MACAddress="080027E613FA" cable="true" speed="0" type="Am79C973"/>
+        <Adapter slot="7" enabled="false" MACAddress="0800275171B9" cable="true" speed="0" type="Am79C973"/>
+      </Network>
+      <UART>
+        <Port slot="0" enabled="false" IOBase="0x3f8" IRQ="4" hostMode="Disconnected"/>
+        <Port slot="1" enabled="false" IOBase="0x3f8" IRQ="4" hostMode="Disconnected"/>
+      </UART>
+      <LPT>
+        <Port slot="0" enabled="false" IOBase="0x378" IRQ="4"/>
+        <Port slot="1" enabled="false" IOBase="0x378" IRQ="4"/>
+      </LPT>
+      <AudioAdapter controller="AC97" driver="Pulse" enabled="true"/>
+      <SharedFolders>
+        <SharedFolder name="cernvm-2.0.7-x86" hostPath="/home/rohit/CERN/cernvm-2.0.7-x86" writable="true"/>
+      </SharedFolders>
+      <Clipboard mode="Bidirectional"/>
+      <Guest memoryBalloonSize="0" statisticsUpdateInterval="0"/>
+      <GuestProperties>
+        <GuestProperty name="/VirtualBox/GuestInfo/OS/Product" value="Linux" timestamp="1274441083843929000" flags=""/>
+        <GuestProperty name="/VirtualBox/GuestInfo/OS/Release" value="2.6.18-128.1.10.el5" timestamp="1274441083934129000" flags=""/>
+        <GuestProperty name="/VirtualBox/GuestInfo/OS/Version" value="#1 SMP Thu May 7 10:39:21 EDT 2009" timestamp="1274441083934345000" flags=""/>
+        <GuestProperty name="/VirtualBox/GuestInfo/OS/ServicePack" value="" timestamp="1274441084067784000" flags=""/>
+        <GuestProperty name="/VirtualBox/GuestAdd/Version" value="3.1.8" timestamp="1274441084091935000" flags=""/>
+        <GuestProperty name="/VirtualBox/GuestAdd/Revision" value="61349" timestamp="1274441084092048000" flags=""/>
+        <GuestProperty name="/VirtualBox/GuestInfo/OS/LoggedInUsers" value="0" timestamp="1274441396998116000" flags=""/>
+        <GuestProperty name="/VirtualBox/GuestInfo/OS/NoLoggedInUsers" value="true" timestamp="1274441084093013000" flags=""/>
+        <GuestProperty name="/VirtualBox/GuestAdd/HostVerLastChecked" value="3.1.8" timestamp="1274430315255598000" flags=""/>
+        <GuestProperty name="/VirtualBox/HostInfo/GUI/LanguageID" value="en_US" timestamp="1274430147733919000" flags=""/>
+        <GuestProperty name="/VirtualBox/GuestAdd/Vbgl/Video/SavedMode" value="800x600x32" timestamp="1274430870688397000" flags=""/>
+        <GuestProperty name="/VirtualBox/GuestInfo/Net/Count" value="0" timestamp="1274441397001218000" flags=""/>
+      </GuestProperties>
+    </Hardware>
+    <StorageControllers>
+      <StorageController name="IDE Controller" type="PIIX4" PortCount="2">
+        <AttachedDevice type="HardDisk" port="0" device="0">
+          <Image uuid="{4af7307c-7281-45e5-b80e-1ef60bc5c779}"/>
+        </AttachedDevice>
+        <AttachedDevice passthrough="false" type="DVD" port="1" device="0">
+          <Image uuid="{21417344-8f7a-458b-be86-bf1b7ab6922f}"/>
+        </AttachedDevice>
+      </StorageController>
+      <StorageController name="Floppy Controller" type="I82078" PortCount="1">
+        <AttachedDevice type="Floppy" port="0" device="0"/>
+      </StorageController>
+    </StorageControllers>
+  </Machine>
+</VirtualBox>

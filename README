@@ -1,0 +1,101 @@
+BOINCVM
+=======
+This project is an extension of "LHC physics simulation using CernVM and BOINC" by Jarno Rantala (2009)
+under Ben Segal, with the help of David Garcia Quintas @ CERN during CERN NMS Summer Student Program 2010.
+-Rohit Yadav
+
+1. Setup
+========
+
+In this section, we discuss how to setup the testing env. 
+I use Ubuntu Linux 10.04. All cmds below shall work fine on Ubuntu...
+
+1.1 VirtualBox
+==============
+
+Install VirtualBox 3.1+ with VBoxGuestAdditions.iso (To install drivers etc.).
+And, with following specs provided here: http://cernvm.cern.ch/cernvm/index.cgi?page=VirtualBoxQuickStart
+
+Pl. find my VirtualBox configuration files in ./share
+(These config files live in ~/.VirtualBox on Linux...)
+ 
+1.2 CERNVM
+==========
+
+CernVM can be downloaded here: http://cernvm.cern.ch/cernvm/
+I use CernVM 2.0.7
+
+1.3 Dependencies
+================
+
+First install python 2.4+ with easy_install:
+  sudo apt-get install python ipython easy_install
+
+Install VMController dependencies:
+  sudo easy_install twisted stomper netifaces coilmq simplejson
+
+1.3.1 Chirp
+===========
+
+You are required to download chirp (http://www.cse.nd.edu/~ccl/software/chirp/) binaries from:
+http://www.cse.nd.edu/~ccl/software/download.shtml
+
+I've used: http://www.cse.nd.edu/~ccl/software/files/cctools-3.0.1-i686-linux-2.6.tar.gz
+The binaries can be found here: ./cctools-3.0.1-i686-linux-2.6
+
+The chirp bin path is to configured in the HostConfig.cfg file (host/boincvm_host/HostConfig.cfg)
+(use relative path as ../../cctools-3.0.1-i686-linux-2.6/bin )
+
+1.4 PYTHONPATH
+==============
+
+PYTHONPATH is a environment variable that python searches while loading modules.
+To run the VMController, the PYTHONPATH must be setup correctly.
+
+Find the configuration file, pypath.conf in the root.
+To load the var, run:
+  source pypath.conf
+
+If you want to reset PYTHONPATH, run the script with any arg:
+  source pypath.conf 1
+
+1.5 Dependencies on the VM
+==========================
+
+Run CERNVM image, on VirtualBox and make sure it (the vm config) has two network adapters.
+(See /share/VirtualBox.xml and /share/CERN VM 2.0.7.xml for pointers...)
+
+On the terminal (as root) install boinc-group:
+  su
+  conary install boinc-group
+
+
+2. Manual Testing
+=================
+
+This section will try to describe methods used in testing.
+
+2.1 Running VMController
+========================
+
+cd to ./host/boincvm_host and run:
+  python boinc-host-controller.py HostConfig.cfg
+
+2.2 XMLRPC Object
+=================
+
+Run ipython or a python script that does something like following:
+
+ import xmlrpclib
+
+ p = xmlrpclib.ServerProxy('http://localhost:8080')
+ p.help() #list all interfaces...
+ vm = p.listRunningVMs()[0]
+ p.ping(vm)
+ p.getState(vm)
+ p.listRunningVMs()
+ #Copy files....
+ id = p.cpFileToVM(vm, '~/test.txt', '')
+
+NOTE: It was found that files got copied to /var/boinc in the VirtualMachine is third parameter was blank...
+

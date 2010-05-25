@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<VirtualBox xmlns="http://www.innotek.de/VirtualBox-settings" version="1.9-linux">
+  <Global>
+    <ExtraData>
+      <ExtraDataItem name="GUI/LastVMSelected" value="1da1dbf0-f19a-424c-8fb9-b309b175528b"/>
+      <ExtraDataItem name="GUI/LastWindowPostion" value="122,186,770,550"/>
+      <ExtraDataItem name="GUI/LicenseAgreed" value="7"/>
+      <ExtraDataItem name="GUI/UpdateCheckCount" value="5"/>
+      <ExtraDataItem name="GUI/UpdateDate" value="1 d, 2010-05-26, stable"/>
+      <ExtraDataItem name="HostOnly/vboxnet0/IPAddress" value="192.168.56.1"/>
+      <ExtraDataItem name="HostOnly/vboxnet0/IPNetMask" value="255.255.255.0"/>
+    </ExtraData>
+    <MachineRegistry>
+      <MachineEntry uuid="{45561d79-11ff-45ec-8969-59b971abbd1b}" src="Machines/CERN VM/CERN VM.xml"/>
+      <MachineEntry uuid="{1da1dbf0-f19a-424c-8fb9-b309b175528b}" src="Machines/CERN VM 2.0.7/CERN VM 2.0.7.xml"/>
+    </MachineRegistry>
+    <MediaRegistry>
+      <HardDisks>
+        <HardDisk uuid="{8a5d5551-94a9-4f86-8d62-12bd59dae8c7}" location="/home/rohit/CERN/cernvm-2.0.5-x86/cernvm-2.0.5-x86.vmdk" format="VMDK" type="Normal"/>
+        <HardDisk uuid="{4af7307c-7281-45e5-b80e-1ef60bc5c779}" location="/home/rohit/CERN/cernvm-2.0.7-x86/cernvm-2.0.7-x86.vmdk" format="VMDK" type="Normal"/>
+      </HardDisks>
+      <DVDImages>
+        <Image uuid="{21417344-8f7a-458b-be86-bf1b7ab6922f}" location="/home/rohit/CERN/VBoxGuestAdditions_3.1.8.iso"/>
+      </DVDImages>
+      <FloppyImages/>
+    </MediaRegistry>
+    <NetserviceRegistry>
+      <DHCPServers>
+        <DHCPServer networkName="HostInterfaceNetworking-vboxnet0" IPAddress="192.168.56.100" networkMask="255.255.255.0" lowerIP="192.168.56.101" upperIP="192.168.56.254" enabled="1"/>
+      </DHCPServers>
+    </NetserviceRegistry>
+    <SystemProperties defaultMachineFolder="Machines" defaultHardDiskFolder="HardDisks" defaultHardDiskFormat="VDI" remoteDisplayAuthLibrary="VRDPAuth" webServiceAuthLibrary="VRDPAuth" LogHistoryCount="3"/>
+    <USBDeviceFilters/>
+  </Global>
+</VirtualBox>
