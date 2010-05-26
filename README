@@ -68,6 +68,14 @@ On the terminal (as root) install boinc-group:
   su
   conary install boinc-group
 
+1.6 Distribute
+==============
+Distribute (a fork of setup tools) is suggested to be used to make installers.
+[WORK IN PROGRESS]
+On Ubuntu install, distribute as:
+  curl -O http://python-distribute.org/distribute_setup.py
+  sudo python distribute_setup.py
+  sudo easy_install pip   
 
 2. Manual Testing
 =================
