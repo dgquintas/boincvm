@@ -98,3 +98,7 @@ Run ipython or a python script that does something like following:
 
 NOTE: It was found that files got copied to /var/boinc in the VirtualMachine (if the third parameter was left blank)
 
+References
+==========
+
+* Building BOINC apps on Linux: http://www.pkids.net/help/boinc/boinc-on-linux.html
