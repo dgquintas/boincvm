@@ -45,6 +45,53 @@ The binaries can be found here: ./cctools-3.0.1-i686-linux-2.6
 The chirp bin path is to configured in the HostConfig.cfg file (host/boincvm_host/HostConfig.cfg)
 (use relative path as ../../cctools-3.0.1-i686-linux-2.6/bin )
 
+1.3.2 BOINC sources
+===================
+
+On unix, the boinc (client and server) source can be downloaded from the svn repo @ berkeley:
+
+svn co http://boinc.berkeley.edu/svn/tags/boinc_core_release_6_10_56
+svn co http://boinc.berkeley.edu/svn/branches/server_stable
+
+Compiled binaries of client can be downloaded from the boinc website: http://boinc.berkeley.edu/
+BOINC Server VM image can be used to skip compile/build/deloy steps: http://boinc.berkeley.edu/trac/wiki/VmServer
+
+In case, Boinc Server is to be compiled, make sure you have following dependencies:
+
+m4
+make
+autoconf
+automake1.9
+gcc-4.1
+gcc
+g++-4.1
+pkg-config
+libtool
+subversion
+vim
+apache2-mpm-prefork
+libapache2-mod-php5
+mysql-client-5.0
+mysql-server-5.0
+php5-mysql
+php5-cli
+php5-gd
+phpmyadmin
+python-mysqldb
+libmysql++-dev
+libssl-dev
+freeglut3-dev
+libxmu-dev
+libxi-dev
+libjpeg62-dev
+---
+
+Check out the stable source code &&  cd <to it>
+Do: 
+  ./_autosetup
+  ./configure
+  make
+
 1.4 PYTHONPATH
 ==============
 
