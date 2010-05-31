@@ -153,9 +153,27 @@ Run ipython or a python script that does something like following:
 
 NOTE: It was found that files got copied to /var/boinc in the VirtualMachine (if the third parameter was left blank)
 
+3. VMWrapper
+============
+
+The VMWrapper is a python program, which runs on the lines of BOINC wrapper (which is for supporting legacy apps).
+The VMWrapper, is the executable which will run on the host, (forked by the BOINC client).
+This python program, will then bridge between the hypervisor (via the VMController) and the BOINC client.
+This will read the job.xml file and do the needful...
+
+The wrapper (written by Jarno Rantala) requires, boinc python bindings written by David Wier. 
+The Python Boinc bindings are available here: http://plato.tp.ph.ic.ac.uk/~djw03/boinc-python/
+
+The original VMWrapper can be found here: https://svnweb.cern.ch/trac/vmwrapper/browser
+
 References
 ==========
 
 * Building BOINC apps on Linux: http://www.pkids.net/help/boinc/boinc-on-linux.html
 * Unofficial BOINC development: http://www.boinc-wiki.info/BOINC_Development
 * Distributed Application With Boinc: http://w3.linux-magazine.com/issue/71/Distributed_Applications_With_BOINC.pdf
+* Creating Python Eggs: http://mrtopf.de/blog/python_zope/a-small-introduction-to-python-eggs/
+* Python Egg formats: http://peak.telecommunity.com/DevCenter/EggFormats
+* Hello world python egg tutorial: http://mxm-mad-science.blogspot.com/2008/02/python-eggs-simple-introduction.html
+* A lot of stuff: http://www.swaroopch.com
+
