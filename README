@@ -176,4 +176,11 @@ References
 * Python Egg formats: http://peak.telecommunity.com/DevCenter/EggFormats
 * Hello world python egg tutorial: http://mxm-mad-science.blogspot.com/2008/02/python-eggs-simple-introduction.html
 * A lot of stuff: http://www.swaroopch.com
+* Standalone BOINC debugging stuff: http://boinc.berkeley.edu/trac/wiki/AppDebug
+* BOINC APIs (standalone etc.): http://boinc.berkeley.edu/trac/wiki/BasicApi
+* Some BOINC notes: http://www.boinc-wiki.info/Eric_Myers'_BOINC_Developers'_Notes
+* How to create a BOINC app: http://www.pkids.net/help/boinc/BOINC_Apps.html
+* Hello, BOINC world: http://www.pkids.net/help/boinc/hello.html
+* Create and configure a BOINC project: http://www.pkids.net/help/boinc/Create_Project.html
+
 
