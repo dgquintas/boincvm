@@ -1,0 +1,216 @@
+debian:/home/boincadm/boinc/tools# ifconfig
+eth0      Link encap:Ethernet  HWaddr 00:50:56:39:03:EC  
+          inet addr:137.138.234.35  Bcast:137.138.255.255  Mask:255.255.0.0
+          inet6 addr: fe80::250:56ff:fe39:3ec/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:1290825 errors:6 dropped:7 overruns:0 frame:0
+          TX packets:194348 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:487540227 (464.9 MiB)  TX bytes:13066961 (12.4 MiB)
+          Interrupt:177 Base address:0x1400 
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:288 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:288 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:14400 (14.0 KiB)  TX bytes:14400 (14.0 KiB)
+
+debian:/home/boincadm/boinc/tools# 
+debian:/home/boincadm/boinc/tools# exit
+exit
+boincadm@debian:~/boinc/tools$ ./make_project --url_base http://137.138.234.35 --test_app test
+Creating project 'test' (short name 'test'):
+   PROJECT_ROOT = /home/boincadm/projects/test/
+       URL_BASE = http://137.138.234.35/
+  HTML_USER_URL = http://137.138.234.35/test/
+   HTML_OPS_URL = http://137.138.234.35/test_ops/
+        CGI_URL = http://137.138.234.35/test_cgi/
+        KEY_DIR = /home/boincadm/projects/test/keys/
+        DB_NAME = test
+        DB_HOST = 
+
+Continue? [Y/n]  y
+Setting up server: creating directories
+
+Keys don't exist in /home/boincadm/projects/test/keys/; generate them? [Y/n]  y
+Setting up server files: generating keys
+Setting up server files: copying files
+Setting up database
+Setting up server files: writing config files
+Setting up server files: linking cgi programs
+update_translations finished
+Done installing default daemons.
+
+Done creating project.  Please view
+/home/boincadm/projects/test/test.readme
+for important additional instructions.
+
+boincadm@debian:~/boinc/tools$ cd /home/boincadm/projects/test
+test/  test0/ 
+boincadm@debian:~/boinc/tools$ cd /home/boincadm/projects/test
+boincadm@debian:~/projects/test$ ls
+apps  cgi-bin	  db_dump_spec.xml  download  keys	      log_debian   py	      test.cronjob     test.readme
+bin   config.xml  db_revision	    html      local.revision  project.xml  templates  test.httpd.conf  upload
+boincadm@debian:~/projects/test$ su -c 'cat test.httpd.conf >> /etc/apache2/httpd.conf'
+Password: 
+boincadm@debian:~/projects/test$ su -c 'apache2ctl -k restart'
+Password: 
+boincadm@debian:~/projects/test$ crontab test.cronjob
+boincadm@debian:~/projects/test$ ./bin/xadd
+Processing <Platform#None windows_intelx86> ...
+  Committed <Platform#1 windows_intelx86> ; values:
+{'_dirty': False,
+ '_lazy_lookups': {},
+ 'create_time': 1275394837L,
+ 'deprecated': 0,
+ 'id': 1L,
+ 'name': 'windows_intelx86',
+ 'user_friendly_name': 'Microsoft Windows (98 or later) running on an Intel x86-compatible CPU'}
+Processing <Platform#None windows_x86_64> ...
+  Committed <Platform#2 windows_x86_64> ; values:
+{'_dirty': False,
+ '_lazy_lookups': {},
+ 'create_time': 1275394837L,
+ 'deprecated': 0,
+ 'id': 2L,
+ 'name': 'windows_x86_64',
+ 'user_friendly_name': 'Microsoft Windows running on an AMD x86_64 or Intel EM64T CPU'}
+Processing <Platform#None i686-pc-linux-gnu> ...
+  Committed <Platform#3 i686-pc-linux-gnu> ; values:
+{'_dirty': False,
+ '_lazy_lookups': {},
+ 'create_time': 1275394837L,
+ 'deprecated': 0,
+ 'id': 3L,
+ 'name': 'i686-pc-linux-gnu',
+ 'user_friendly_name': 'Linux running on an Intel x86-compatible CPU'}
+Processing <Platform#None x86_64-pc-linux-gnu> ...
+  Committed <Platform#4 x86_64-pc-linux-gnu> ; values:
+{'_dirty': False,
+ '_lazy_lookups': {},
+ 'create_time': 1275394837L,
+ 'deprecated': 0,
+ 'id': 4L,
+ 'name': 'x86_64-pc-linux-gnu',
+ 'user_friendly_name': 'Linux running on an AMD x86_64 or Intel EM64T CPU'}
+Processing <Platform#None powerpc-apple-darwin> ...
+  Committed <Platform#5 powerpc-apple-darwin> ; values:
+{'_dirty': False,
+ '_lazy_lookups': {},
+ 'create_time': 1275394837L,
+ 'deprecated': 0,
+ 'id': 5L,
+ 'name': 'powerpc-apple-darwin',
+ 'user_friendly_name': 'Mac OS X 10.3 or later running on Motorola PowerPC'}
+Processing <Platform#None i686-apple-darwin> ...
+  Committed <Platform#6 i686-apple-darwin> ; values:
+{'_dirty': False,
+ '_lazy_lookups': {},
+ 'create_time': 1275394837L,
+ 'deprecated': 0,
+ 'id': 6L,
+ 'name': 'i686-apple-darwin',
+ 'user_friendly_name': 'Mac OS 10.4 or later running on Intel'}
+Processing <Platform#None x86_64-apple-darwin> ...
+  Committed <Platform#7 x86_64-apple-darwin> ; values:
+{'_dirty': False,
+ '_lazy_lookups': {},
+ 'create_time': 1275394837L,
+ 'deprecated': 0,
+ 'id': 7L,
+ 'name': 'x86_64-apple-darwin',
+ 'user_friendly_name': 'Intel 64-bit Mac OS 10.5 or later'}
+Processing <Platform#None sparc-sun-solaris2.7> ...
+  Committed <Platform#8 sparc-sun-solaris2.7> ; values:
+{'_dirty': False,
+ '_lazy_lookups': {},
+ 'create_time': 1275394837L,
+ 'deprecated': 0,
+ 'id': 8L,
+ 'name': 'sparc-sun-solaris2.7',
+ 'user_friendly_name': 'Solaris 2.7 running on a SPARC-compatible CPU'}
+Processing <Platform#None sparc-sun-solaris> ...
+  Committed <Platform#9 sparc-sun-solaris> ; values:
+{'_dirty': False,
+ '_lazy_lookups': {},
+ 'create_time': 1275394837L,
+ 'deprecated': 0,
+ 'id': 9L,
+ 'name': 'sparc-sun-solaris',
+ 'user_friendly_name': 'Solaris 2.8 or later running on a SPARC-compatible CPU'}
+Processing <Platform#None sparc64-sun-solaris> ...
+  Committed <Platform#10 sparc64-sun-solaris> ; values:
+{'_dirty': False,
+ '_lazy_lookups': {},
+ 'create_time': 1275394837L,
+ 'deprecated': 0,
+ 'id': 10L,
+ 'name': 'sparc64-sun-solaris',
+ 'user_friendly_name': 'Solaris 2.8 or later running on a SPARC 64-bit CPU'}
+Processing <Platform#None powerpc64-ps3-linux-gnu> ...
+  Committed <Platform#11 powerpc64-ps3-linux-gnu> ; values:
+{'_dirty': False,
+ '_lazy_lookups': {},
+ 'create_time': 1275394837L,
+ 'deprecated': 0,
+ 'id': 11L,
+ 'name': 'powerpc64-ps3-linux-gnu',
+ 'user_friendly_name': 'Sony Playstation 3 running Linux'}
+Processing <Platform#None anonymous> ...
+  Committed <Platform#12 anonymous> ; values:
+{'_dirty': False,
+ '_lazy_lookups': {},
+ 'create_time': 1275394837L,
+ 'deprecated': 0,
+ 'id': 12L,
+ 'name': 'anonymous',
+ 'user_friendly_name': 'anonymous'}
+Processing <App#None uppercase> ...
+  Committed <App#1 uppercase> ; values:
+{'_dirty': False,
+ '_lazy_lookups': {},
+ 'beta': 0,
+ 'create_time': 1275394837L,
+ 'deprecated': 0,
+ 'homogeneous_redundancy': 0,
+ 'id': 1L,
+ 'min_version': 0L,
+ 'name': 'uppercase',
+ 'target_nresults': 0,
+ 'user_friendly_name': 'upperCASE',
+ 'weight': 1.0}
+boincadm@debian:~/projects/test$ ./bin/update_versions
+  Found <App#1 uppercase> version 101 for <Platform#3 i686-pc-linux-gnu>: uppercase_1.1_i686-pc-linux-gnu
+
+SECURITY WARNING:
+=================
+
+You have not provided a signature file for /home/boincadm/projects/test/apps/uppercase/uppercase_1.1_i686-pc-linux-gnu/uppercase_1.1_i686-pc-linux-gnu.
+
+I can generate one now, but this is highly unrecommended.  Generating code
+signatures on network-connected computers is a security vulnerability, and
+should not be done for publicly-accessable projects.
+
+Continue with automatically generating a code signature? [y/N]  y
+Signing /home/boincadm/projects/test/apps/uppercase/uppercase_1.1_i686-pc-linux-gnu/uppercase_1.1_i686-pc-linux-gnu
+Copying uppercase_1.1_i686-pc-linux-gnu to /home/boincadm/projects/test/download/uppercase_1.1_i686-pc-linux-gnu
+Ready to commit 1 items:
+    <AppVersion#None uppercase 101 i686-pc-linux-gnu>
+Continue [Y/n]  y
+Committed:
+    <AppVersion#1 uppercase 101 i686-pc-linux-gnu>
+Touched trigger file to make feeder re-read app_version table from database
+Done
+boincadm@debian:~/projects/test$ ./bin/start
+Entering ENABLED mode
+Starting daemons
+  Starting daemon: feeder -d 3
+  Starting daemon: transitioner -d 3
+  Starting daemon: file_deleter -d 3
+  Starting daemon: sample_work_generator -d 3
+  Starting daemon: sample_bitwise_validator -d 3 -app uppercase
+  Starting daemon: sample_assimilator -d 3 -app uppercase
+boincadm@debian:~/projects/test$
