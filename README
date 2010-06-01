@@ -200,6 +200,7 @@ The original VMWrapper can be found here: https://svnweb.cern.ch/trac/vmwrapper/
 References
 ==========
 
+* Starting point, of everything: http://boinc.berkeley.edu/trac/wiki/ProjectMain
 * BOINC app hello world: http://www.spy-hill.net/~myers/help/boinc/hello.html
 * Building BOINC apps on Linux: http://www.pkids.net/help/boinc/boinc-on-linux.html
 * Unofficial BOINC development: http://www.boinc-wiki.info/BOINC_Development
