@@ -45,8 +45,8 @@ The binaries can be found here: ./cctools-3.0.1-i686-linux-2.6
 The chirp bin path is to configured in the HostConfig.cfg file (host/boincvm_host/HostConfig.cfg)
 (use relative path as ../../cctools-3.0.1-i686-linux-2.6/bin )
 
-1.3.2 BOINC sources
-===================
+1.3.2 BOINC source code
+=======================
 
 On unix, the boinc (client and server) source can be downloaded from the svn repo @ berkeley:
 
@@ -91,6 +91,37 @@ Do:
   ./_autosetup
   ./configure
   make
+
+1.3.3 BOINC standalone mode
+===========================
+
+BOINC applications can be compiled and tested in the BOINC client's standalone mode.
+This does not require a developer to setup the server etc.
+
+To do that, boinc core libraries must be compiled (in static mode) from source.
+This requires packages, install the dependencies as (for graphics):
+  sudo apt-get install libglut3-dev libjpeg-dev build-essential
+
+On Linux, do:
+  svn co http://boinc.berkeley.edu/svn/tags/boinc_core_release_6_10_56
+  ./_autosetup
+  ./configure --disable-client --disable-server --enable-static LDFLAGS=-static-libgcc --disable-manager
+  make
+
+After successful completion, goto samples folder:
+  cd ./samples/example_app
+  make
+  
+In this directory, create a file called "in", with some text written.
+Now, run the compiled program: ./uc2
+This will create an output file "out" with all the characters uppercase and a error file "stderr.txt"
+
+When uc2 runs for the first time, it will create three files:
+  boinc_finish_called, boinc_uppercase_0 and init_data.xml (Info about system etc)
+
+You may try out the graphics example as well, do:
+  make uc2_graphics; ./uc2_graphics etc...
+
 
 1.4 PYTHONPATH
 ==============
@@ -169,6 +200,7 @@ The original VMWrapper can be found here: https://svnweb.cern.ch/trac/vmwrapper/
 References
 ==========
 
+* BOINC app hello world: http://www.spy-hill.net/~myers/help/boinc/hello.html
 * Building BOINC apps on Linux: http://www.pkids.net/help/boinc/boinc-on-linux.html
 * Unofficial BOINC development: http://www.boinc-wiki.info/BOINC_Development
 * Distributed Application With Boinc: http://w3.linux-magazine.com/issue/71/Distributed_Applications_With_BOINC.pdf
