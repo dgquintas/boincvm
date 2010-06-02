@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# VMwrpapper.py
-# VMwrapper program - lets you use non-BOINC apps with BOINC in volunteers machines or in virtual machines.
+# VMWrapper.py
+# VMwrapper program - Python wrapper for BOINC-VM Apps
 #
 # Handles:
 # - suspend/resume/quit/abort
@@ -12,15 +12,15 @@
 #     * VM: Takes periodic snapshots of the virtual machine
 # - (supposed to also handle trickle messaging in future)
 #
-# See http://boinc.berkeley.edu/trac/wiki/VmApps for details
-# Contributor: Jarno Rantala (jarno.rantala@gmail.com)
+# Wiki: http://boinc.berkeley.edu/trac/wiki/VmApps
+# Authors: Rohit Yadav   <rohityadav89@gmail.com>,  2010
+#          Jarno Rantala <jarno.rantala@gmail.com>, 2009
 #
-# The original code was made under the CERN openlab summer student program July-August 2009
 
 
 import sys, string, xmlrpclib, time, subprocess, signal, os, traceback
-from boinc import *
 from xml.dom import minidom
+from boinc import *
 
 JOB_FILENAME = "job.xml"
 CHECKPOINT_FILENAME  = "checkpoint.txt"
