@@ -216,8 +216,14 @@ References
 * Hello, BOINC world: http://www.pkids.net/help/boinc/hello.html
 * Create and configure a BOINC project: http://www.pkids.net/help/boinc/Create_Project.html
 * A wonderful introduciton to create Python Eggs: http://mrtopf.de/blog/python_zope/a-small-introduction-to-python-eggs/
+* Writing a package in Python: http://www.packtpub.com/article/writing-a-package-in-python
 
 * Zero Install(Cool Build n deploy tool): http://0install.net/
+
+Python Tutorials and Stuff
+==========================
+
+* http://www.python-visual-sandbox.de/
 
 UNTRACKED:
 ==========
