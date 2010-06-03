@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+import distribute_setup
+distribute_setup.use_setuptools()
+
 from setuptools import setup, Extension
 
 # May need to adjust these to suit your system, but a standard installation of the BOINC client from source will put things in these places
