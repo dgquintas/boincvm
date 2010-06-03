@@ -1,0 +1,25 @@
+PyBoinc 0.3.2
+"Python Bindings for BOINC APIs"
+
+Author: David Weir <david.weir03@imperial.ac.uk>
+Maintainer: Rohit Yadav <rohtiyadav89@gmail.com>
+
+Packaging
+=========
+
+python setup.py bdist_egg
+This will create the egg file in ./dist
+
+Note:
+This is a C++ binding, so requires g++
+In case packaging leads to error,
+Export compiler names on your terminal:
+
+export CC=g++
+export CPP=g++
+export GCC=g++
+
+Installing
+==========
+Linux:
+(sudo) easy_install <path-to-pyboinc-egg>
