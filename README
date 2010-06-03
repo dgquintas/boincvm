@@ -215,7 +215,9 @@ References
 * How to create a BOINC app: http://www.pkids.net/help/boinc/BOINC_Apps.html
 * Hello, BOINC world: http://www.pkids.net/help/boinc/hello.html
 * Create and configure a BOINC project: http://www.pkids.net/help/boinc/Create_Project.html
+* A wonderful introduciton to create Python Eggs: http://mrtopf.de/blog/python_zope/a-small-introduction-to-python-eggs/
 
+* Zero Install(Cool Build n deploy tool): http://0install.net/
 
 UNTRACKED:
 ==========
@@ -223,4 +225,4 @@ UNTRACKED:
 http://svn.pythonmac.org/py2app/py2app/trunk/doc/index.html
 http://packages.python.org/distribute/setuptools.html
 http://peak.telecommunity.com/DevCenter/PythonEggs
-
+http://svn.pythonmac.org/py2app/py2app/trunk/doc/index.html
