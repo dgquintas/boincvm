@@ -2,7 +2,7 @@
 
 """
 #to avoid conflicting with VB's own MachineState symbol
-from controllers import MachineState as GenericMachineState 
+from boincvm_host.controllers import MachineState as GenericMachineState 
 from boincvm_common import support
 from boincvm_common import Exceptions 
 

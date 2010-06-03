@@ -23,10 +23,10 @@ class VMStompEngine(BaseStompEngine.BaseStompEngine):
     networkInterface = config.get('VM', 'network_interface')
     period = int(config.get('VM', 'beacon_interval'))
 
+    self._startSendingBeacons = lambda: LoopingCall( self._sendBeacon ).start(period, now=False)
+
     self._initId(networkInterface)
 
-    self._beaconSender = LoopingCall( self._sendBeacon ) 
-    self._beaconSender.start(period, now=False)
 
   def connected(self, msg):
     res = []
@@ -35,6 +35,9 @@ class VMStompEngine(BaseStompEngine.BaseStompEngine):
 
     #announce ourselves
     res.append( words.HELLO().howToSay(self) )
+ 
+    #FIXME: even better whould be to wait for the HELLO back from the host
+    self._startSendingBeacons()
 
     return tuple(res)
 
