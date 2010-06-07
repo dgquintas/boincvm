@@ -168,8 +168,12 @@ This will create a distribute enable virtualenv...
 
 Now, activate it using: 
 
-Linux like: source ./bin/activate
-Windows: ./Scripts/activate.bat
+Linux/Mac: source ./bin/activate
+Windows: .\Scripts\activate.bat
+
+To deactivate:
+Linux/Mac: deactivate
+Windows: .\Scripts\deactivate.bat
 
 To install py eggs:
   easy_install <path to eggs...>
