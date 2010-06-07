@@ -1,0 +1,74 @@
+Applying update job 1 of 15:                       
+    Install info-boinc(:user)=1-1-1
+Applying update job 2 of 15:                              
+    Install cernvm-config-batch(:runtime)=0.2-2-1
+    Install perl-Compress-Raw-Zlib(:devel :perl :supdoc)=2.020-2-1
+    Install perl-Crypt-OpenSSL-Random(:devel :perl)=0.03-3-1
+    Install perl-DBD-MySQL(:perl)=3.0007_2.el5-1-3
+    Install perl-IO-stringy(:devel :perl :supdoc)=2.110-2-1
+Applying update job 3 of 15:                              
+    Install Pyrex(:python)=0.9.4_2.fc6-1-4
+    Install boinc-vm-controller:config=0.2.1-1-1
+    Install perl-Copilot-Component-Agent:config=0.3.0-1-1
+    Install perl-Copilot-Component-Agent:devel=0.3.0-1-1
+    Install perl-Copilot-Component-JobManager-AliEn:config=0.3.0-1-1
+    Install perl-Copilot-Component-JobManager-AliEn:devel=0.3.0-1-1
+    Install perl-Copilot-Component-JobManager-AliEn:runtime=0.3.0-1-1
+    Install python-netifaces(:python :supdoc)=0.5-1-1
+    Install python-zopeinterface(:python :supdoc)=3.3.0-1-1
+Applying update job 4 of 15:                              
+    Install perl-Copilot-Component-KeyManager:config=0.3.0-1-1
+    Install perl-Copilot-Component-KeyManager:devel=0.3.0-1-1
+    Install perl-Copilot-Component-KeyManager:runtime=0.3.0-1-1
+    Install perl-Copilot-Component-StorageManager-AliEn:config=0.3.0-1-1
+    Install perl-Copilot-Component-StorageManager-AliEn:devel=0.3.0-1-1
+    Install perl-Copilot-Component-StorageManager-AliEn:runtime=0.3.0-1-1
+    Install perl-Crypt-CBC(:devel :perl :supdoc)=2.21-2-1
+    Install perl-Crypt-OpenSSL-AES(:devel :perl :supdoc)=0.02-2-1
+Applying update job 5 of 15:                              
+    Install perl-Crypt-OpenSSL-RSA(:devel :perl :supdoc)=0.23-4-1
+    Install perl-Event(:devel :perl :supdoc)=1.11-2-1
+    Install perl-Filesys-DiskFree(:devel :perl :supdoc)=0.06-3-1
+Applying update job 6 of 15:                              
+    Install perl-Authen-SASL(:devel :perl)=2.12-2-1
+    Install perl-Filter-Template(:devel :perl :supdoc)=1.03-2-1
+    Install perl-GSSAPI(:devel :perl :supdoc)=0.26-2-1
+    Install perl-IO-Tty(:devel :perl :supdoc)=1.03-2-1
+Applying update job 7 of 15:                               
+    Install perl-POE-Component-SSLify(:devel :perl :supdoc)=0.15-2-1
+    Install perl-POE-Filter-XML(:devel :perl :supdoc)=0.33-4-1
+    Install perl-Params-Validate(:devel :perl :supdoc)=0.91-2-1
+Applying update job 8 of 15:                                
+    Install perl-Log-Dispatch(:devel :perl :supdoc)=2.22-2-1
+    Install perl-Log-Dispatch-Config(:devel :perl :supdoc)=1.02-2-1
+    Install perl-Sys-Syscall(:devel :perl :supdoc)=0.22-3-1
+Applying update job 9 of 15:                                
+    Install perl-Danga-Socket(:devel :perl :supdoc)=1.57-3-1
+    Install perl-POE(:devel :perl :supdoc)=1.007-3-1
+    Install perl-POE-Component-Jabber(:devel :perl :supdoc)=2.02-2-1
+    Install perl-Tk(:perl :runtime)=804.028_3.el5-1-1
+Applying update job 10 of 15:                                
+    Install perl-DJabberd(:devel :perl :runtime :supdoc)=0.83-3-1
+    Install perl-POE-Component-Logger(:devel :perl :supdoc)=1.00-2-1
+    Install perl-XML-SAX-Expat(:devel :perl)=0.40-1-1
+    Install perl-XML-SAX-Expat-Incremental(:devel :perl)=0.05-2-1
+Applying update job 11 of 15:                      
+    Install perl-Copilot(:devel :perl :supdoc)=0.3.0-1-1
+    Install perl-Copilot-AliEn(:devel :perl :supdoc)=0.3.0-1-1
+    Install perl-Copilot-Component-Agent(:perl :runtime :supdoc)=0.3.0-1-1
+    Install perl-XML-Simple(:perl)=2.14_4.fc6-1-3
+Applying update job 12 of 15:                                           
+    Install perl-Copilot-Component-JobManager-AliEn(:perl :supdoc)=0.3.0-1-1
+    Install perl-Copilot-Component-KeyManager(:perl :supdoc)=0.3.0-1-1
+    Install perl-Copilot-Component-StorageManager-AliEn(:perl :supdoc)=0.3.0-1-1
+Applying update job 13 of 15:            
+    Install group-copilot=2.1.0-6.1-2[~!fuse.pae,~fuse.smp,~!kernel.debug,~!kernel.pae,~kernel.smp]
+Applying update job 14 of 15:            
+    Install boinc-vm-controller(:python :runtime)=0.2.1-1-1
+    Install python-stomper(:python :supdoc)=0.2.2-2-1
+    Install python-twisted(:python :runtime :supdoc)=8.1.0-2-1
+    Install simplejson:supdoc=1.3-3-0.0.2
+Applying update job 15 of 15:              
+    Install group-boinc=2.1.0-6.1-2[~!fuse.pae,~fuse.smp,~!kernel.debug,~!kernel.pae,~kernel.smp]
+    Install group-cernvm-batch=2.1.0-6.1-2[~!fuse.pae,~fuse.smp,~!kernel.debug,~!kernel.pae,~kernel.smp]
+
