@@ -242,6 +242,11 @@ References
 * Writing a package in Python: http://www.packtpub.com/article/writing-a-package-in-python
 * Virtual Python Env: http://pypi.python.org/pypi/virtualenv
 * VirtualEnv: http://virtualenv.openplans.org/
+* VirtualEnv wrapper: http://www.doughellmann.com/articles/pythonmagazine/completely-different/2008-05-virtualenvwrapper/index.html
+* iPython and VirtualEnv: http://www.doughellmann.com/articles/pythonmagazine/completely-different/2008-02-ipython-and-virtualenv/index.html
+
+
+* USING VIRTUALENV: http://showmedo.com/videotutorials/video?name=2910000&fromSeriesID=291
 
 * Zero Install(Cool Build n deploy tool): http://0install.net/
 
