@@ -164,6 +164,9 @@ Install virtualenv: (you may use pip)
 To create such a folder:
   virtualenv --distribute <Name of the Folder>
 
+To create a sandbox without inheriting any of the installed packages on your system:
+  virualenv --no-site-packages --distribute <dir-name>
+
 This will create a distribute enable virtualenv...
 
 Now, activate it using: 
