@@ -136,7 +136,7 @@ To load the var, run:
 If you want to reset PYTHONPATH, run the script with any arg:
   source pypath.conf 1
 
-1.5 Dependencies on the VM
+1.5 Dependencies for the VM
 ==========================
 
 Run CERNVM image, on VirtualBox and make sure it (the vm config) has two network adapters.
@@ -149,11 +149,30 @@ On the terminal (as root) install boinc-group:
 1.6 Distribute
 ==============
 Distribute (a fork of setup tools) is suggested to be used to make installers.
-[WORK IN PROGRESS]
+
 On Ubuntu install, distribute as:
   curl -O http://python-distribute.org/distribute_setup.py
   sudo python distribute_setup.py
   sudo easy_install pip   
+
+1.7 Virtual Env
+================
+Virtual Env lets us create a virtual sandbox containing our python app...
+Install virtualenv: (you may use pip) 
+  sudo easy_install virtualenv
+
+To create such a folder:
+  virtualenv --distribute <Name of the Folder>
+
+This will create a distribute enable virtualenv...
+
+Now, activate it using: 
+
+Linux like: source ./bin/activate
+Windows: ./Scripts/activate.bat
+
+To install py eggs:
+  easy_install <path to eggs...>
 
 2. Manual Testing
 =================
