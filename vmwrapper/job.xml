@@ -7,21 +7,8 @@
     </unzip_task>
     <unzip_task>
         <application>tar</application>
-        <command_line>-xf ./apache-activemq-5.2.0.tar</command_line>
-        <stdout_filename>stdout_tar</stdout_filename>
-        <stderr_filename>stderr_tar</stderr_filename>
-    </unzip_task>
-    <unzip_task>
-        <application>tar</application>
         <command_line>-xf ./boincvm.tar</command_line>
     </unzip_task>
-    <VMmanage_task>
-        <application>./apache-activemq-5.2.0/bin/activemq</application>
-        <stdin_filename></stdin_filename>
-        <stdout_filename>stdout_broker</stdout_filename>
-        <stderr_filename>stderr_broker</stderr_filename>
-        <command_line></command_line>
-    </VMmanage_task>
     <VMmanage_task>
         <application>python</application>
         <stdin_filename></stdin_filename>
